@@ -1,0 +1,20 @@
+{
+	"pid": 41572,
+	"port": 4322,
+	"url": "http://localhost:4322",
+	"urls": {
+		"local": [
+			"http://localhost:4322/"
+		],
+		"network": [
+			"http://172.27.64.1:4322/",
+			"http://192.168.8.14:4322/"
+		],
+		"networkInterfaceNames": [
+			"vEthernet (WSL (Hyper-V firewall))",
+			"Ethernet 2"
+		]
+	},
+	"background": false,
+	"startedAt": "2026-10-11T21:05:37.643Z"
+}

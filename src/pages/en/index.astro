@@ -1,0 +1,276 @@
+---
+import Layout from '../../layouts/Layout.astro';
+const waBase = 'https://wa.me/528123705584';
+const waGeneral = `${waBase}?text=Hello%2C%20I%20want%20to%20learn%20about%20Keikaku%20AI%20services`;
+const waCall = `${waBase}?text=Hello%2C%20I%27d%20like%20to%20book%20a%20free%20diagnostic%20call`;
+
+const services = [
+  {
+    icon: '🔄',
+    title: 'Process Automation',
+    desc: 'We eliminate repetitive tasks with intelligent workflows. RPA, document processing, automatic notifications, and more.',
+    tag: 'RPA · AI Workflows',
+  },
+  {
+    icon: '🤖',
+    title: 'AI Chatbots',
+    desc: 'Virtual assistants that serve your customers 24/7, qualify leads, answer questions, and escalate to humans when necessary.',
+    tag: 'LLMs · Customer Service',
+  },
+  {
+    icon: '🛠️',
+    title: 'Custom AI Tools',
+    desc: 'We build AI applications tailored exactly to your process: dashboards, data extractors, report generators.',
+    tag: 'Apps · Dashboards',
+  },
+  {
+    icon: '🔗',
+    title: 'Workflow Integration',
+    desc: 'We connect your existing systems (CRM, ERP, WhatsApp, email, APIs) so information flows without friction.',
+    tag: 'APIs · Automation',
+  },
+];
+
+const steps = [
+  { num: '01', title: 'Diagnosis', desc: 'We analyze your processes and identify where AI generates the greatest impact.' },
+  { num: '02', title: 'Proposal', desc: 'We present a concrete plan with costs, timelines, and expected ROI.' },
+  { num: '03', title: 'Implementation', desc: 'We develop and integrate the solution in 2–4 weeks.' },
+  { num: '04', title: 'Support', desc: 'Ongoing guidance to optimize and scale.' },
+];
+---
+<Layout title="AI Consulting for Businesses" lang="en"
+  description="AI consulting to automate business processes. Chatbots, automation, and custom AI tools.">
+
+  <!-- ===== HERO ===== -->
+  <section class="relative flex flex-col items-center justify-center text-center px-4 pt-16 pb-12">
+    <div class="absolute inset-0 pointer-events-none" style="background-image:radial-gradient(circle at 50% 40%, rgba(99,102,241,0.08) 0%, transparent 60%);"></div>
+
+    <span class="tag mb-6">Artificial Intelligence Consulting</span>
+
+    <h1 class="text-5xl md:text-7xl font-bold text-white max-w-4xl leading-tight mb-6"
+        style="font-family:'Space Grotesk',sans-serif;">
+      Automate Your Business<br class="hidden md:block"/> with AI
+    </h1>
+
+    <p class="text-slate-400 text-lg md:text-xl max-w-2xl leading-relaxed mb-10">
+      We design and implement AI solutions that eliminate manual work, reduce errors, and scale your operations without hiring more staff.
+    </p>
+
+    <div class="flex flex-col sm:flex-row gap-4 mb-16">
+      <a href={waCall} target="_blank" rel="noopener" class="btn-primary text-base">
+        Book a free call →
+      </a>
+      <a href="#services" class="btn-ghost text-base">
+        See services
+      </a>
+    </div>
+
+    <!-- stat pills -->
+    <div class="flex flex-col sm:flex-row gap-3 text-sm text-slate-400">
+      {[
+        '50% less time on manual tasks',
+        'Implementation in 2–4 weeks',
+        'Measurable ROI from month 1',
+      ].map(stat => (
+        <span class="px-4 py-2 rounded-full border border-white/5 bg-white/[0.03]">{stat}</span>
+      ))}
+    </div>
+  </section>
+
+  <!-- ===== SERVICES ===== -->
+  <section id="services" class="max-w-6xl mx-auto px-4 py-20">
+    <div class="text-center mb-14">
+      <h2 class="section-title" style="font-family:'Space Grotesk',sans-serif;">Our Services</h2>
+      <p class="section-sub">AI solutions that adapt to your business, not the other way around.</p>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-6">
+      {services.map(s => (
+        <div class="card-dark group flex flex-col gap-4">
+          <div class="flex items-start gap-4">
+            <div class="text-2xl w-12 h-12 flex items-center justify-center rounded-lg flex-shrink-0"
+                 style="background-color:rgba(99,102,241,0.1);">
+              {s.icon}
+            </div>
+            <div>
+              <h3 class="font-bold text-white text-lg mb-1" style="font-family:'Space Grotesk',sans-serif;">{s.title}</h3>
+              <span class="tag text-xs">{s.tag}</span>
+            </div>
+          </div>
+          <p class="text-slate-400 text-sm leading-relaxed">{s.desc}</p>
+          <a href={waGeneral} target="_blank" rel="noopener"
+             class="text-indigo-400 hover:text-indigo-300 text-sm font-medium transition-colors mt-auto">
+            Learn more →
+          </a>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- ===== PROCESS ===== -->
+  <section id="process" class="max-w-6xl mx-auto px-4 py-20">
+    <div class="text-center mb-14">
+      <h2 class="section-title" style="font-family:'Space Grotesk',sans-serif;">How We Work</h2>
+      <p class="section-sub">A simple, straightforward process focused on results.</p>
+    </div>
+
+    <div class="relative grid md:grid-cols-4 gap-6">
+      <div class="hidden md:block absolute top-8 left-[12.5%] right-[12.5%] h-px" style="background:linear-gradient(90deg,transparent,rgba(99,102,241,0.3) 20%,rgba(99,102,241,0.3) 80%,transparent);"></div>
+
+      {steps.map(step => (
+        <div class="flex flex-col items-center text-center gap-3">
+          <div class="relative z-10 w-16 h-16 rounded-full flex items-center justify-center font-bold text-indigo-300 text-sm border border-indigo-500/30"
+               style="background-color:#111118;font-family:'Space Grotesk',sans-serif;">
+            {step.num}
+          </div>
+          <h3 class="font-bold text-white" style="font-family:'Space Grotesk',sans-serif;">{step.title}</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">{step.desc}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- ===== ABOUT ===== -->
+  <section id="about" class="max-w-6xl mx-auto px-4 py-20">
+    <div class="grid md:grid-cols-2 gap-12 items-start">
+      <div>
+        <h2 class="section-title mb-6" style="font-family:'Space Grotesk',sans-serif;">Why Keikaku AI?</h2>
+        <ul class="space-y-4 text-slate-300">
+          {[
+            'Practical solutions, not lab demos',
+            'Proprietary code, no dependency on expensive platforms',
+            'Fast implementation with measurable results',
+            'Real-world experience in automation with LLMs',
+          ].map(item => (
+            <li class="flex items-start gap-3">
+              <span class="mt-1.5 w-2 h-2 rounded-full flex-shrink-0" style="background-color:#6366f1;"></span>
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="card-dark border-indigo-500/20">
+        <div class="text-3xl mb-4" style="opacity:0.6;">"</div>
+        <p class="text-slate-300 leading-relaxed mb-4">
+          Keikaku <span class="text-slate-500 text-sm">(計画)</span> means <strong class="text-white">'plan'</strong> in Japanese. We believe AI without strategy is just noise — every implementation starts with a clear plan and measurable business objectives.
+        </p>
+        <div class="border-t border-white/5 pt-4 mt-4">
+          <p class="text-sm font-semibold text-white">Marcelo Arteaga</p>
+          <p class="text-xs text-slate-500">Founder, Keikaku AI Consulting</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CTA BAND ===== -->
+  <section class="py-20 px-4" style="background-color:#0d0d1a;">
+    <div class="max-w-2xl mx-auto text-center">
+      <h2 class="text-4xl font-bold text-white mb-4" style="font-family:'Space Grotesk',sans-serif;">
+        Ready to automate?
+      </h2>
+      <p class="text-slate-400 text-lg mb-8">
+        Book a free 30-minute diagnostic call. No commitment.
+      </p>
+      <a href={waCall} target="_blank" rel="noopener"
+         class="btn-primary text-lg px-8 py-4">
+        Book free call →
+      </a>
+    </div>
+  </section>
+
+  <!-- ===== CONTACT ===== -->
+  <section id="contact" class="max-w-6xl mx-auto px-4 py-20">
+    <div class="text-center mb-14">
+      <h2 class="section-title" style="font-family:'Space Grotesk',sans-serif;">Contact</h2>
+      <p class="section-sub">We respond within 24 hours.</p>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-10">
+      <!-- contact info -->
+      <div class="flex flex-col gap-6">
+        <div class="card-dark">
+          <h3 class="font-bold text-white mb-4" style="font-family:'Space Grotesk',sans-serif;">Get in touch</h3>
+          <div class="space-y-3 text-sm text-slate-300">
+            <div class="flex items-center gap-3">
+              <span class="text-lg">💬</span>
+              <a href="https://wa.me/528123705584" target="_blank" rel="noopener"
+                 class="hover:text-indigo-300 transition-colors">
+                WhatsApp: +52 812 370 5584
+              </a>
+            </div>
+            <div class="flex items-center gap-3">
+              <span class="text-lg">📧</span>
+              <a href="mailto:keikakuconsulting@gmail.com"
+                 class="hover:text-indigo-300 transition-colors">
+                keikakuconsulting@gmail.com
+              </a>
+            </div>
+          </div>
+          <div class="mt-6">
+            <a href={waCall} target="_blank" rel="noopener" class="btn-primary w-full text-center block">
+              Contact via WhatsApp →
+            </a>
+          </div>
+        </div>
+
+        <div class="text-slate-500 text-xs leading-relaxed px-1">
+          We serve businesses in Mexico and Latin America. Video call sessions available for international clients.
+        </div>
+      </div>
+
+      <!-- contact form -->
+      <div class="card-dark">
+        <h3 class="font-bold text-white mb-6" style="font-family:'Space Grotesk',sans-serif;">Send us a message</h3>
+        <form id="contact-form" class="space-y-4">
+          <div>
+            <label class="block text-sm text-slate-400 mb-1.5" for="nombre">Name</label>
+            <input id="nombre" name="nombre" type="text" required
+              class="w-full rounded-lg px-4 py-2.5 text-sm text-white placeholder-slate-600 border border-white/10 focus:border-indigo-500/50 focus:outline-none transition-colors"
+              style="background-color:#0d0d1a;"
+              placeholder="Your name" />
+          </div>
+          <div>
+            <label class="block text-sm text-slate-400 mb-1.5" for="email">Email</label>
+            <input id="email" name="email" type="email" required
+              class="w-full rounded-lg px-4 py-2.5 text-sm text-white placeholder-slate-600 border border-white/10 focus:border-indigo-500/50 focus:outline-none transition-colors"
+              style="background-color:#0d0d1a;"
+              placeholder="you@company.com" />
+          </div>
+          <div>
+            <label class="block text-sm text-slate-400 mb-1.5" for="empresa">Company</label>
+            <input id="empresa" name="empresa" type="text"
+              class="w-full rounded-lg px-4 py-2.5 text-sm text-white placeholder-slate-600 border border-white/10 focus:border-indigo-500/50 focus:outline-none transition-colors"
+              style="background-color:#0d0d1a;"
+              placeholder="Your company name" />
+          </div>
+          <div>
+            <label class="block text-sm text-slate-400 mb-1.5" for="mensaje">Message</label>
+            <textarea id="mensaje" name="mensaje" rows="4" required
+              class="w-full rounded-lg px-4 py-2.5 text-sm text-white placeholder-slate-600 border border-white/10 focus:border-indigo-500/50 focus:outline-none transition-colors resize-none"
+              style="background-color:#0d0d1a;"
+              placeholder="How can we help you?"></textarea>
+          </div>
+          <button type="submit" class="btn-primary w-full text-center">
+            Send message
+          </button>
+          <div id="form-success" class="hidden text-center text-sm text-indigo-300 py-2">
+            Message sent! We'll get back to you within 24 hours.
+          </div>
+        </form>
+
+        <script>
+          document.getElementById('contact-form')?.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const form = e.target as HTMLFormElement;
+            const data = Object.fromEntries(new FormData(form));
+            await fetch('/api/contact', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(data) });
+            form.reset();
+            document.getElementById('form-success')?.classList.remove('hidden');
+          });
+        </script>
+      </div>
+    </div>
+  </section>
+
+</Layout>

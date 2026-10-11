@@ -1,0 +1,278 @@
+---
+import Layout from '../layouts/Layout.astro';
+const waBase = 'https://wa.me/528123705584';
+const waGeneral = `${waBase}?text=Hola%2C%20quiero%20saber%20m%C3%A1s%20sobre%20los%20servicios%20de%20Keikaku%20AI`;
+const waLlamada = `${waBase}?text=Hola%2C%20quiero%20agendar%20una%20llamada%20de%20diagn%C3%B3stico%20gratuita`;
+
+const services = [
+  {
+    icon: '🔄',
+    title: 'Automatización de Procesos',
+    desc: 'Eliminamos tareas repetitivas con flujos de trabajo inteligentes. RPA, procesamiento de documentos, notificaciones automáticas y más.',
+    tag: 'RPA · AI Workflows',
+  },
+  {
+    icon: '🤖',
+    title: 'Chatbots con IA',
+    desc: 'Asistentes virtuales que atienden a tus clientes 24/7, califican leads, responden preguntas y escalan a humanos cuando es necesario.',
+    tag: 'LLMs · Atención al Cliente',
+  },
+  {
+    icon: '🛠️',
+    title: 'Herramientas AI a Medida',
+    desc: 'Construimos aplicaciones de IA adaptadas exactamente a tu proceso: dashboards, extractores de datos, generadores de reportes.',
+    tag: 'Apps · Dashboards',
+  },
+  {
+    icon: '🔗',
+    title: 'Integración de Flujos',
+    desc: 'Conectamos tus sistemas existentes (CRM, ERP, WhatsApp, email, APIs) para que la información fluya sin fricciones.',
+    tag: 'APIs · Automatización',
+  },
+];
+
+const steps = [
+  { num: '01', title: 'Diagnóstico', desc: 'Analizamos tus procesos y detectamos dónde la IA genera mayor impacto.' },
+  { num: '02', title: 'Propuesta', desc: 'Te presentamos un plan concreto con costos, tiempos y ROI esperado.' },
+  { num: '03', title: 'Implementación', desc: 'Desarrollamos e integramos la solución en 2–4 semanas.' },
+  { num: '04', title: 'Soporte', desc: 'Acompañamiento continuo para optimizar y escalar.' },
+];
+---
+<Layout title="Consultoría de IA para Empresas" lang="es">
+
+  <!-- ===== HERO ===== -->
+  <section class="relative flex flex-col items-center justify-center text-center px-4 pt-16 pb-12">
+    <!-- subtle radial glow -->
+    <div class="absolute inset-0 pointer-events-none" style="background-image:radial-gradient(circle at 50% 40%, rgba(99,102,241,0.08) 0%, transparent 60%);"></div>
+
+    <span class="tag mb-6">Consultoría de Inteligencia Artificial</span>
+
+    <h1 class="text-5xl md:text-7xl font-bold text-white max-w-4xl leading-tight mb-6"
+        style="font-family:'Space Grotesk',sans-serif;">
+      Automatiza tu negocio<br class="hidden md:block"/> con IA
+    </h1>
+
+    <p class="text-slate-400 text-lg md:text-xl max-w-2xl leading-relaxed mb-10">
+      Diseñamos e implementamos soluciones de inteligencia artificial que eliminan trabajo manual, reducen errores y escalan tu operación sin contratar más personal.
+    </p>
+
+    <div class="flex flex-col sm:flex-row gap-4 mb-16">
+      <a href={waLlamada} target="_blank" rel="noopener" class="btn-primary text-base">
+        Agendar una llamada →
+      </a>
+      <a href="#servicios" class="btn-ghost text-base">
+        Ver servicios
+      </a>
+    </div>
+
+    <!-- stat pills -->
+    <div class="flex flex-col sm:flex-row gap-3 text-sm text-slate-400">
+      {[
+        '50% menos tiempo en tareas manuales',
+        'Implementación en 2–4 semanas',
+        'ROI medible desde el mes 1',
+      ].map(stat => (
+        <span class="px-4 py-2 rounded-full border border-white/5 bg-white/[0.03]">{stat}</span>
+      ))}
+    </div>
+  </section>
+
+  <!-- ===== SERVICIOS ===== -->
+  <section id="servicios" class="max-w-6xl mx-auto px-4 py-20">
+    <div class="text-center mb-14">
+      <h2 class="section-title" style="font-family:'Space Grotesk',sans-serif;">Nuestros Servicios</h2>
+      <p class="section-sub">Soluciones de IA que se adaptan a tu negocio, no al revés.</p>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-6">
+      {services.map(s => (
+        <div class="card-dark group flex flex-col gap-4">
+          <div class="flex items-start gap-4">
+            <div class="text-2xl w-12 h-12 flex items-center justify-center rounded-lg flex-shrink-0"
+                 style="background-color:rgba(99,102,241,0.1);">
+              {s.icon}
+            </div>
+            <div>
+              <h3 class="font-bold text-white text-lg mb-1" style="font-family:'Space Grotesk',sans-serif;">{s.title}</h3>
+              <span class="tag text-xs">{s.tag}</span>
+            </div>
+          </div>
+          <p class="text-slate-400 text-sm leading-relaxed">{s.desc}</p>
+          <a href={waGeneral} target="_blank" rel="noopener"
+             class="text-indigo-400 hover:text-indigo-300 text-sm font-medium transition-colors mt-auto">
+            Más info →
+          </a>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- ===== PROCESO ===== -->
+  <section id="proceso" class="max-w-6xl mx-auto px-4 py-20">
+    <div class="text-center mb-14">
+      <h2 class="section-title" style="font-family:'Space Grotesk',sans-serif;">¿Cómo trabajamos?</h2>
+      <p class="section-sub">Un proceso simple y directo, enfocado en resultados.</p>
+    </div>
+
+    <div class="relative grid md:grid-cols-4 gap-6">
+      <!-- connector line desktop -->
+      <div class="hidden md:block absolute top-8 left-[12.5%] right-[12.5%] h-px"
+           style="background:linear-gradient(90deg,transparent,rgba(99,102,241,0.3) 20%,rgba(99,102,241,0.3) 80%,transparent);"></div>
+
+      {steps.map(step => (
+        <div class="flex flex-col items-center text-center gap-3">
+          <div class="relative z-10 w-16 h-16 rounded-full flex items-center justify-center font-bold text-indigo-300 text-sm border border-indigo-500/30"
+               style="background-color:#111118;font-family:'Space Grotesk',sans-serif;">
+            {step.num}
+          </div>
+          <h3 class="font-bold text-white" style="font-family:'Space Grotesk',sans-serif;">{step.title}</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">{step.desc}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- ===== NOSOTROS ===== -->
+  <section id="nosotros" class="max-w-6xl mx-auto px-4 py-20">
+    <div class="grid md:grid-cols-2 gap-12 items-start">
+      <div>
+        <h2 class="section-title mb-6" style="font-family:'Space Grotesk',sans-serif;">¿Por qué Keikaku AI?</h2>
+        <ul class="space-y-4 text-slate-300">
+          {[
+            'Soluciones prácticas, no demos de laboratorio',
+            'Código propio, sin dependencia de plataformas caras',
+            'Implementación rápida con resultados medibles',
+            'Experiencia real en automatización con LLMs',
+          ].map(item => (
+            <li class="flex items-start gap-3">
+              <span class="mt-1.5 w-2 h-2 rounded-full flex-shrink-0" style="background-color:#6366f1;"></span>
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="card-dark border-indigo-500/20">
+        <div class="text-3xl mb-4" style="opacity:0.6;">"</div>
+        <p class="text-slate-300 leading-relaxed mb-4">
+          Keikaku <span class="text-slate-500 text-sm">(計画)</span> significa <strong class="text-white">'plan'</strong> en japonés. Creemos que la IA sin estrategia es solo ruido — cada implementación parte de un plan claro con objetivos de negocio medibles.
+        </p>
+        <div class="border-t border-white/5 pt-4 mt-4">
+          <p class="text-sm font-semibold text-white">Marcelo Arteaga</p>
+          <p class="text-xs text-slate-500">Fundador, Keikaku AI Consulting</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CTA BAND ===== -->
+  <section class="py-20 px-4" style="background-color:#0d0d1a;">
+    <div class="max-w-2xl mx-auto text-center">
+      <h2 class="text-4xl font-bold text-white mb-4" style="font-family:'Space Grotesk',sans-serif;">
+        ¿Listo para automatizar?
+      </h2>
+      <p class="text-slate-400 text-lg mb-8">
+        Agenda una llamada de diagnóstico gratuita de 30 minutos. Sin compromiso.
+      </p>
+      <a href={waLlamada} target="_blank" rel="noopener"
+         class="btn-primary text-lg px-8 py-4">
+        Agendar llamada gratis →
+      </a>
+    </div>
+  </section>
+
+  <!-- ===== CONTACTO ===== -->
+  <section id="contacto" class="max-w-6xl mx-auto px-4 py-20">
+    <div class="text-center mb-14">
+      <h2 class="section-title" style="font-family:'Space Grotesk',sans-serif;">Contacto</h2>
+      <p class="section-sub">Respondemos en menos de 24h.</p>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-10">
+      <!-- contact info -->
+      <div class="flex flex-col gap-6">
+        <div class="card-dark">
+          <h3 class="font-bold text-white mb-4" style="font-family:'Space Grotesk',sans-serif;">Habla con nosotros</h3>
+          <div class="space-y-3 text-sm text-slate-300">
+            <div class="flex items-center gap-3">
+              <span class="text-lg">💬</span>
+              <a href="https://wa.me/528123705584" target="_blank" rel="noopener"
+                 class="hover:text-indigo-300 transition-colors">
+                WhatsApp: +52 812 370 5584
+              </a>
+            </div>
+            <div class="flex items-center gap-3">
+              <span class="text-lg">📧</span>
+              <a href="mailto:keikakuconsulting@gmail.com"
+                 class="hover:text-indigo-300 transition-colors">
+                keikakuconsulting@gmail.com
+              </a>
+            </div>
+          </div>
+          <div class="mt-6">
+            <a href={waLlamada} target="_blank" rel="noopener" class="btn-primary w-full text-center block">
+              Agendar por WhatsApp →
+            </a>
+          </div>
+        </div>
+
+        <div class="text-slate-500 text-xs leading-relaxed px-1">
+          Atendemos empresas en México y Latinoamérica. Sesiones por videollamada disponibles para clientes internacionales.
+        </div>
+      </div>
+
+      <!-- contact form -->
+      <div class="card-dark">
+        <h3 class="font-bold text-white mb-6" style="font-family:'Space Grotesk',sans-serif;">Envíanos un mensaje</h3>
+        <form id="contact-form" class="space-y-4">
+          <div>
+            <label class="block text-sm text-slate-400 mb-1.5" for="nombre">Nombre</label>
+            <input id="nombre" name="nombre" type="text" required
+              class="w-full rounded-lg px-4 py-2.5 text-sm text-white placeholder-slate-600 border border-white/10 focus:border-indigo-500/50 focus:outline-none transition-colors"
+              style="background-color:#0d0d1a;"
+              placeholder="Tu nombre" />
+          </div>
+          <div>
+            <label class="block text-sm text-slate-400 mb-1.5" for="email">Email</label>
+            <input id="email" name="email" type="email" required
+              class="w-full rounded-lg px-4 py-2.5 text-sm text-white placeholder-slate-600 border border-white/10 focus:border-indigo-500/50 focus:outline-none transition-colors"
+              style="background-color:#0d0d1a;"
+              placeholder="correo@empresa.com" />
+          </div>
+          <div>
+            <label class="block text-sm text-slate-400 mb-1.5" for="empresa">Empresa</label>
+            <input id="empresa" name="empresa" type="text"
+              class="w-full rounded-lg px-4 py-2.5 text-sm text-white placeholder-slate-600 border border-white/10 focus:border-indigo-500/50 focus:outline-none transition-colors"
+              style="background-color:#0d0d1a;"
+              placeholder="Nombre de tu empresa" />
+          </div>
+          <div>
+            <label class="block text-sm text-slate-400 mb-1.5" for="mensaje">Mensaje</label>
+            <textarea id="mensaje" name="mensaje" rows="4" required
+              class="w-full rounded-lg px-4 py-2.5 text-sm text-white placeholder-slate-600 border border-white/10 focus:border-indigo-500/50 focus:outline-none transition-colors resize-none"
+              style="background-color:#0d0d1a;"
+              placeholder="¿En qué podemos ayudarte?"></textarea>
+          </div>
+          <button type="submit" class="btn-primary w-full text-center">
+            Enviar mensaje
+          </button>
+          <div id="form-success" class="hidden text-center text-sm text-indigo-300 py-2">
+            ¡Mensaje enviado! Te contactamos en menos de 24h.
+          </div>
+        </form>
+
+        <script>
+          document.getElementById('contact-form')?.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const form = e.target as HTMLFormElement;
+            const data = Object.fromEntries(new FormData(form));
+            await fetch('/api/contact', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(data) });
+            form.reset();
+            document.getElementById('form-success')?.classList.remove('hidden');
+          });
+        </script>
+      </div>
+    </div>
+  </section>
+
+</Layout>
