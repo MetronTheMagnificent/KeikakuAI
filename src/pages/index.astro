@@ -38,7 +38,8 @@ const steps = [
   { num: '04', title: 'Soporte', desc: 'Acompañamiento continuo para optimizar y escalar.' },
 ];
 ---
-<Layout title="Consultoría de IA para Empresas" lang="es">
+<Layout title="Consultoría de IA en Monterrey para Empresas" lang="es"
+  description="Keikaku AI — Consultoría de inteligencia artificial en Monterrey, NL. Automatizamos procesos, creamos chatbots con IA y herramientas a medida. Resultados en 2–4 semanas.">
 
   <!-- ===== HERO ===== -->
   <section class="relative flex flex-col items-center justify-center text-center px-4 pt-16 pb-12">
@@ -53,7 +54,7 @@ const steps = [
     </h1>
 
     <p class="text-slate-400 text-lg md:text-xl max-w-2xl leading-relaxed mb-10">
-      Diseñamos e implementamos soluciones de inteligencia artificial que eliminan trabajo manual, reducen errores y escalan tu operación sin contratar más personal.
+      Diseñamos e implementamos soluciones de inteligencia artificial para empresas en <strong class="text-slate-300">Monterrey y toda Latinoamérica</strong>. Eliminamos trabajo manual, reducimos errores y escalamos tu operación sin contratar más personal.
     </p>
 
     <div class="flex flex-col sm:flex-row gap-4 mb-16">
@@ -217,7 +218,7 @@ const steps = [
         </div>
 
         <div class="text-slate-500 text-xs leading-relaxed px-1">
-          Atendemos empresas en México y Latinoamérica. Sesiones por videollamada disponibles para clientes internacionales.
+          Atendemos empresas en <strong class="text-slate-600">Monterrey, Nuevo León</strong> y toda Latinoamérica. Sesiones por videollamada disponibles para clientes fuera de Monterrey.
         </div>
       </div>
 
@@ -259,16 +260,30 @@ const steps = [
           <div id="form-success" class="hidden text-center text-sm text-indigo-300 py-2">
             ¡Mensaje enviado! Te contactamos en menos de 24h.
           </div>
+          <div id="form-error" class="hidden text-center text-sm text-red-400 py-2">
+            Error al enviar. Escríbenos por WhatsApp o email directamente.
+          </div>
         </form>
 
         <script>
-          document.getElementById('contact-form')?.addEventListener('submit', async (e) => {
+          const form = document.getElementById('contact-form') as HTMLFormElement | null;
+          const submitBtn = form?.querySelector('button[type="submit"]') as HTMLButtonElement | null;
+          form?.addEventListener('submit', async (e) => {
             e.preventDefault();
-            const form = e.target as HTMLFormElement;
+            if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Enviando…'; }
             const data = Object.fromEntries(new FormData(form));
-            await fetch('/api/contact', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(data) });
-            form.reset();
-            document.getElementById('form-success')?.classList.remove('hidden');
+            try {
+              const res = await fetch('/api/contact', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(data) });
+              if (!res.ok) throw new Error();
+              form.reset();
+              document.getElementById('form-success')?.classList.remove('hidden');
+              document.getElementById('form-error')?.classList.add('hidden');
+            } catch {
+              document.getElementById('form-error')?.classList.remove('hidden');
+              document.getElementById('form-success')?.classList.add('hidden');
+            } finally {
+              if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = 'Enviar mensaje'; }
+            }
           });
         </script>
       </div>

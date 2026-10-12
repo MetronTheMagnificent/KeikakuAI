@@ -5,27 +5,134 @@ export interface Props {
   description?: string;
   lang?: 'es' | 'en';
 }
-const { title, description = "Consultoría de IA para automatizar procesos de negocio. Chatbots, automatización y herramientas AI a medida.", lang = 'es' } = Astro.props;
+
+const { title, description, lang = 'es' } = Astro.props;
 const isEN = lang === 'en';
+
+const defaultDesc = isEN
+  ? 'AI consulting in Monterrey, Mexico. We automate business processes, build AI chatbots and custom tools for companies in NL and Latin America.'
+  : 'Consultoría de inteligencia artificial en Monterrey, México. Automatizamos procesos, creamos chatbots con IA y herramientas a medida para empresas en NL y LATAM.';
+
+const metaDesc = description ?? defaultDesc;
+const siteBase = 'https://keikakuai.com';
+const canonical = isEN ? `${siteBase}/en` : siteBase;
+const altLangHref = isEN ? siteBase : `${siteBase}/en`;
+
 const otherLang = isEN ? '/' : '/en';
 const otherLabel = isEN ? 'ES' : 'EN';
+
 const navLinks = isEN
-  ? [{href:'/#services',label:'Services'},{href:'/#process',label:'Process'},{href:'/#about',label:'About'},{href:'/#contact',label:'Contact'}]
-  : [{href:'/#servicios',label:'Servicios'},{href:'/#proceso',label:'Proceso'},{href:'/#nosotros',label:'Nosotros'},{href:'/#contacto',label:'Contacto'}];
+  ? [
+      { href: '/en#services', label: 'Services' },
+      { href: '/en#process',  label: 'Process'  },
+      { href: '/en#about',    label: 'About'    },
+      { href: '/en#contact',  label: 'Contact'  },
+    ]
+  : [
+      { href: '/#servicios', label: 'Servicios' },
+      { href: '/#proceso',   label: 'Proceso'   },
+      { href: '/#nosotros',  label: 'Nosotros'  },
+      { href: '/#contacto',  label: 'Contacto'  },
+    ];
+
 const waText = isEN ? 'Book a Call' : 'Agendar Llamada';
-const waMsg = isEN ? 'Hello%2C%20I%20want%20to%20learn%20about%20Keikaku%20AI%20services' : 'Hola%2C%20quiero%20saber%20m%C3%A1s%20sobre%20los%20servicios%20de%20Keikaku%20AI';
+const waMsg  = isEN
+  ? 'Hello%2C%20I%20want%20to%20learn%20about%20Keikaku%20AI%20services'
+  : 'Hola%2C%20quiero%20saber%20m%C3%A1s%20sobre%20los%20servicios%20de%20Keikaku%20AI';
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfessionalService',
+  name: 'Keikaku AI Consulting',
+  description: isEN
+    ? 'AI consulting in Monterrey for process automation, AI chatbots, and custom tools.'
+    : 'Consultoría de IA en Monterrey para automatización de procesos, chatbots y herramientas a medida.',
+  url: siteBase,
+  logo: `${siteBase}/logo.png`,
+  image: `${siteBase}/logo.png`,
+  founder: { '@type': 'Person', name: 'Marcelo Arteaga' },
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Monterrey',
+    addressRegion: 'Nuevo León',
+    addressCountry: 'MX',
+  },
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: 25.6866,
+    longitude: -100.3161,
+  },
+  areaServed: ['Monterrey', 'Nuevo León', 'México', 'Latinoamérica'],
+  contactPoint: {
+    '@type': 'ContactPoint',
+    telephone: '+52-812-370-5584',
+    contactType: 'sales',
+    email: 'keikakuconsulting@gmail.com',
+    availableLanguage: ['Spanish', 'English'],
+  },
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: 'AI Consulting Services',
+    itemListElement: [
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: isEN ? 'Process Automation' : 'Automatización de Procesos' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: isEN ? 'AI Chatbots' : 'Chatbots con IA' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: isEN ? 'Custom AI Tools' : 'Herramientas AI a Medida' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: isEN ? 'Workflow Integration' : 'Integración de Flujos' } },
+    ],
+  },
+  sameAs: ['https://wa.me/528123705584'],
+};
 ---
 <!DOCTYPE html>
 <html lang={lang}>
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content={description} />
+
+  <!-- Primary meta -->
   <title>{title} | Keikaku AI</title>
-  <link rel="icon" href="/logo.png" />
+  <meta name="description" content={metaDesc} />
+  <meta name="author" content="Marcelo Arteaga — Keikaku AI Consulting" />
+  <meta name="robots" content="index, follow" />
+  <meta name="geo.region" content="MX-NL" />
+  <meta name="geo.placename" content="Monterrey, Nuevo León, México" />
+
+  <!-- Canonical + hreflang -->
+  <link rel="canonical" href={canonical} />
+  <link rel="alternate" hreflang={lang} href={canonical} />
+  <link rel="alternate" hreflang={isEN ? 'es' : 'en'} href={altLangHref} />
+  <link rel="alternate" hreflang="x-default" href={siteBase} />
+
+  <!-- Open Graph -->
+  <meta property="og:type"        content="website" />
+  <meta property="og:url"         content={canonical} />
+  <meta property="og:site_name"   content="Keikaku AI Consulting" />
+  <meta property="og:title"       content={`${title} | Keikaku AI`} />
+  <meta property="og:description" content={metaDesc} />
+  <meta property="og:image"       content={`${siteBase}/og-image.png`} />
+  <meta property="og:image:width"  content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:locale"      content={isEN ? 'en_US' : 'es_MX'} />
+  <meta property="og:locale:alternate" content={isEN ? 'es_MX' : 'en_US'} />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card"        content="summary_large_image" />
+  <meta name="twitter:title"       content={`${title} | Keikaku AI`} />
+  <meta name="twitter:description" content={metaDesc} />
+  <meta name="twitter:image"       content={`${siteBase}/og-image.png`} />
+
+  <!-- Favicon -->
+  <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+  <link rel="icon" href="/logo.png" type="image/png" sizes="any" />
+  <link rel="apple-touch-icon" href="/logo.png" />
+
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet" />
+
+  <!-- Structured data -->
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 </head>
 <body style="font-family:'Inter',sans-serif; background-color:#0a0a0f;">
 
@@ -33,18 +140,42 @@ const waMsg = isEN ? 'Hello%2C%20I%20want%20to%20learn%20about%20Keikaku%20AI%20
   <header class="sticky top-0 z-50 border-b border-white/5" style="background-color:rgba(10,10,15,0.95);backdrop-filter:blur(12px);">
     <nav class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
       <a href={isEN ? '/en' : '/'} class="flex items-center gap-3">
-        <img src="/logo.png" alt="Keikaku AI" class="h-7 w-7" style="filter:invert(1) brightness(0.9);" />
+        <img src="/logo.png" alt="Keikaku AI Consulting Monterrey" class="h-7 w-7" style="filter:invert(1) brightness(0.9);" />
         <span class="font-bold text-white text-base tracking-tight" style="font-family:'Space Grotesk',sans-serif;">Keikaku AI</span>
       </a>
+
+      <!-- Desktop nav -->
       <div class="hidden md:flex items-center gap-6 text-sm font-medium text-slate-400">
         {navLinks.map(l => <a href={l.href} class="hover:text-white transition-colors">{l.label}</a>)}
         <a href={otherLang} class="text-indigo-400 hover:text-indigo-300 transition-colors font-semibold">{otherLabel}</a>
       </div>
+
+      <div class="flex items-center gap-3">
+        <a href={`https://wa.me/528123705584?text=${waMsg}`} target="_blank" rel="noopener"
+          class="bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors hidden sm:inline-flex">
+          {waText}
+        </a>
+        <!-- Hamburger (mobile only) -->
+        <button id="nav-toggle" aria-label="Toggle navigation" aria-expanded="false"
+          class="md:hidden flex flex-col gap-1.5 p-2 rounded-md text-slate-400 hover:text-white transition-colors">
+          <span class="block w-5 h-0.5 bg-current transition-all duration-200" id="ham-top"></span>
+          <span class="block w-5 h-0.5 bg-current transition-all duration-200" id="ham-mid"></span>
+          <span class="block w-5 h-0.5 bg-current transition-all duration-200" id="ham-bot"></span>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Mobile menu -->
+    <div id="mobile-menu" class="hidden md:hidden border-t border-white/5 px-4 py-4 space-y-1" style="background-color:rgba(10,10,15,0.98);">
+      {navLinks.map(l => (
+        <a href={l.href} class="block text-slate-300 hover:text-white py-2 text-sm font-medium transition-colors mobile-nav-link">{l.label}</a>
+      ))}
+      <a href={otherLang} class="block text-indigo-400 hover:text-indigo-300 py-2 text-sm font-semibold transition-colors">{otherLabel}</a>
       <a href={`https://wa.me/528123705584?text=${waMsg}`} target="_blank" rel="noopener"
-        class="bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors">
+        class="mt-2 block bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold px-4 py-2.5 rounded-lg transition-colors text-center">
         {waText}
       </a>
-    </nav>
+    </div>
   </header>
 
   <main>
@@ -59,7 +190,12 @@ const waMsg = isEN ? 'Hello%2C%20I%20want%20to%20learn%20about%20Keikaku%20AI%20
           <img src="/logo.png" alt="Keikaku AI" class="h-6 w-6" style="filter:invert(1) opacity(0.7);" />
           <span class="font-bold text-white" style="font-family:'Space Grotesk',sans-serif;">Keikaku AI Consulting</span>
         </div>
-        <p class="text-slate-400 text-sm leading-relaxed">{isEN ? 'AI consulting to automate business processes. Chatbots, automation, custom AI tools.' : 'Consultoría de IA para automatizar procesos de negocio. Chatbots, automatización, herramientas AI a medida.'}</p>
+        <p class="text-slate-400 text-sm leading-relaxed mb-2">
+          {isEN
+            ? 'AI consulting in Monterrey, NL. Process automation, AI chatbots, and custom tools for businesses in Mexico and Latin America.'
+            : 'Consultoría de IA en Monterrey, NL. Automatización de procesos, chatbots y herramientas a medida para empresas en México y LATAM.'}
+        </p>
+        <p class="text-slate-600 text-xs">{isEN ? 'Monterrey, Nuevo León, México' : 'Monterrey, Nuevo León, México'}</p>
       </div>
       <div>
         <h3 class="font-semibold text-white mb-3 text-sm">{isEN ? 'Services' : 'Servicios'}</h3>
@@ -74,54 +210,101 @@ const waMsg = isEN ? 'Hello%2C%20I%20want%20to%20learn%20about%20Keikaku%20AI%20
         <h3 class="font-semibold text-white mb-3 text-sm">{isEN ? 'Contact' : 'Contacto'}</h3>
         <p class="text-slate-400 text-sm leading-relaxed">
           Marcelo Arteaga<br/>
+          Monterrey, Nuevo León, México<br/>
           <a href="mailto:keikakuconsulting@gmail.com" class="hover:text-indigo-300 transition-colors">keikakuconsulting@gmail.com</a><br/>
-          <a href="https://wa.me/528123705584" target="_blank" class="hover:text-indigo-300 transition-colors">+52 812 370 5584</a>
+          <a href="https://wa.me/528123705584" target="_blank" rel="noopener" class="hover:text-indigo-300 transition-colors">+52 812 370 5584</a>
         </p>
       </div>
     </div>
     <div class="border-t border-white/5 text-center text-xs text-slate-600 py-4">
-      © {new Date().getFullYear()} Keikaku AI Consulting — {isEN ? 'All rights reserved' : 'Todos los derechos reservados'}
+      © {new Date().getFullYear()} Keikaku AI Consulting, Monterrey NL — {isEN ? 'All rights reserved' : 'Todos los derechos reservados'}
     </div>
   </footer>
 
   <!-- AI CHAT WIDGET (bottom-left) -->
   <div id="chat-widget" class="fixed bottom-6 left-6 z-50 flex flex-col items-start gap-2">
-    <!-- chat window -->
     <div id="chat-box" class="hidden flex-col w-80 rounded-2xl shadow-2xl overflow-hidden border border-white/10" style="background-color:#13131f;max-height:420px;">
-      <!-- header -->
       <div class="flex items-center justify-between px-4 py-3 border-b border-white/10" style="background-color:#1a1a2e;">
         <div class="flex items-center gap-2">
           <div class="w-2 h-2 rounded-full bg-emerald-400"></div>
           <span class="text-sm font-semibold text-white" style="font-family:'Space Grotesk',sans-serif;">Keiku AI</span>
         </div>
-        <button id="chat-close" class="text-slate-500 hover:text-white text-lg leading-none">×</button>
+        <button id="chat-close" aria-label="Close chat" class="text-slate-500 hover:text-white text-lg leading-none">×</button>
       </div>
-      <!-- messages -->
       <div id="chat-messages" class="flex-1 overflow-y-auto p-4 space-y-3 text-sm" style="max-height:280px;">
-        <div class="chat-msg-bot flex gap-2">
+        <div class="flex gap-2">
           <div class="rounded-xl px-3 py-2 text-slate-200 leading-relaxed" style="background-color:#1e1e35;max-width:90%;">
-            {isEN ? '👋 Hi! I\'m Keiku, your AI assistant. How can I help automate your business?' : '👋 ¡Hola! Soy Keiku, tu asistente IA. ¿En qué puedo ayudarte a automatizar tu negocio?'}
+            {isEN
+              ? '👋 Hi! I\'m Keiku. How can I help automate your business?'
+              : '👋 ¡Hola! Soy Keiku. ¿En qué puedo ayudarte a automatizar tu negocio?'}
           </div>
         </div>
       </div>
-      <!-- input -->
       <div class="p-3 border-t border-white/10 flex gap-2">
         <input id="chat-input" type="text"
           placeholder={isEN ? 'Ask me anything…' : 'Escríbeme algo…'}
+          aria-label={isEN ? 'Chat message' : 'Mensaje de chat'}
           class="flex-1 rounded-lg px-3 py-2 text-sm text-white placeholder-slate-600 border border-white/10 focus:border-indigo-500/50 focus:outline-none"
           style="background-color:#0d0d1a;" />
-        <button id="chat-send" class="px-3 py-2 rounded-lg text-white text-sm font-semibold transition-colors" style="background-color:#6366f1;">→</button>
+        <button id="chat-send" aria-label="Send message"
+          class="px-3 py-2 rounded-lg text-white text-sm font-semibold transition-colors disabled:opacity-50"
+          style="background-color:#6366f1;">→</button>
       </div>
     </div>
-    <!-- toggle button -->
-    <button id="chat-toggle" class="w-14 h-14 rounded-full flex items-center justify-center shadow-xl transition-transform duration-200 hover:scale-110 border border-indigo-500/30" style="background-color:#6366f1;">
+    <button id="chat-toggle" aria-label={isEN ? 'Open AI chat' : 'Abrir chat IA'} aria-expanded="false"
+      class="w-14 h-14 rounded-full flex items-center justify-center shadow-xl transition-transform duration-200 hover:scale-110 border border-indigo-500/30"
+      style="background-color:#6366f1;">
       <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
         <path stroke-linecap="round" stroke-linejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-3 3v-3z"/>
       </svg>
     </button>
   </div>
 
+  <!-- WHATSAPP FLOATING BUTTON -->
+  <a href={`https://wa.me/528123705584?text=${isEN ? 'Hello%2C%20I%20want%20to%20learn%20about%20Keikaku%20AI%20services' : 'Hola%2C%20quiero%20saber%20m%C3%A1s%20sobre%20los%20servicios%20de%20Keikaku%20AI'}`}
+    target="_blank" rel="noopener"
+    title={isEN ? 'Chat on WhatsApp' : 'Escribir por WhatsApp'}
+    class="fixed bottom-6 right-6 z-50 flex items-center gap-2 group">
+    <span class="opacity-0 group-hover:opacity-100 transition-opacity duration-200 bg-white text-slate-800 text-xs font-semibold px-3 py-1.5 rounded-full shadow-lg whitespace-nowrap">
+      {isEN ? 'Chat with us' : 'Escríbenos'}
+    </span>
+    <div class="w-14 h-14 rounded-full flex items-center justify-center shadow-xl transition-transform duration-200 group-hover:scale-110" style="background-color:#25D366;">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" class="w-7 h-7">
+        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+      </svg>
+    </div>
+  </a>
+
   <script define:vars={{ lang }}>
+    // Mobile nav
+    const navToggle = document.getElementById('nav-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const hamTop = document.getElementById('ham-top');
+    const hamMid = document.getElementById('ham-mid');
+    const hamBot = document.getElementById('ham-bot');
+    let menuOpen = false;
+
+    navToggle?.addEventListener('click', () => {
+      menuOpen = !menuOpen;
+      mobileMenu?.classList.toggle('hidden', !menuOpen);
+      navToggle.setAttribute('aria-expanded', String(menuOpen));
+      if (hamMid) hamMid.style.opacity = menuOpen ? '0' : '1';
+      if (hamTop) { hamTop.style.transform = menuOpen ? 'translateY(8px) rotate(45deg)' : ''; }
+      if (hamBot) { hamBot.style.transform = menuOpen ? 'translateY(-8px) rotate(-45deg)' : ''; }
+    });
+
+    document.querySelectorAll('.mobile-nav-link').forEach(link => {
+      link.addEventListener('click', () => {
+        menuOpen = false;
+        mobileMenu?.classList.add('hidden');
+        navToggle?.setAttribute('aria-expanded', 'false');
+        if (hamMid) hamMid.style.opacity = '1';
+        if (hamTop) hamTop.style.transform = '';
+        if (hamBot) hamBot.style.transform = '';
+      });
+    });
+
+    // Chat widget
     const toggle = document.getElementById('chat-toggle');
     const closeBtn = document.getElementById('chat-close');
     const chatBox = document.getElementById('chat-box');
@@ -129,9 +312,16 @@ const waMsg = isEN ? 'Hello%2C%20I%20want%20to%20learn%20about%20Keikaku%20AI%20
     const sendBtn = document.getElementById('chat-send');
     const messages = document.getElementById('chat-messages');
     let history = [];
+    let chatOpen = false;
 
-    toggle?.addEventListener('click', () => chatBox?.classList.toggle('hidden'));
-    closeBtn?.addEventListener('click', () => chatBox?.classList.add('hidden'));
+    function setChatOpen(open) {
+      chatOpen = open;
+      chatBox?.classList.toggle('hidden', !open);
+      toggle?.setAttribute('aria-expanded', String(open));
+    }
+
+    toggle?.addEventListener('click', () => setChatOpen(!chatOpen));
+    closeBtn?.addEventListener('click', () => setChatOpen(false));
 
     function addMsg(text, role) {
       const div = document.createElement('div');
@@ -155,7 +345,7 @@ const waMsg = isEN ? 'Hello%2C%20I%20want%20to%20learn%20about%20Keikaku%20AI%20
 
     async function send() {
       const text = input?.value.trim();
-      if (!text) return;
+      if (!text || sendBtn?.disabled) return;
       input.value = '';
       addMsg(text, 'user');
       history.push({ role: 'user', content: text });
@@ -167,40 +357,21 @@ const waMsg = isEN ? 'Hello%2C%20I%20want%20to%20learn%20about%20Keikaku%20AI%20
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ messages: history, lang }),
         });
+        if (!res.ok) throw new Error('HTTP ' + res.status);
         const data = await res.json();
         const reply = data.reply || (lang === 'en' ? 'Sorry, something went wrong.' : 'Lo siento, algo salió mal.');
         addMsg(reply, 'bot');
         history.push({ role: 'assistant', content: reply });
       } catch {
-        addMsg(lang === 'en' ? 'Connection error.' : 'Error de conexión.', 'bot');
+        addMsg(lang === 'en' ? 'Connection error. Please try WhatsApp.' : 'Error de conexión. Escríbenos por WhatsApp.', 'bot');
       }
       sendBtn.disabled = false;
       sendBtn.textContent = '→';
     }
 
     sendBtn?.addEventListener('click', send);
-    input?.addEventListener('keydown', (e) => { if (e.key === 'Enter') send(); });
+    input?.addEventListener('keydown', e => { if (e.key === 'Enter') send(); });
   </script>
-
-  <!-- WHATSAPP FLOATING BUTTON -->
-  <a
-    href={`https://wa.me/528123705584?text=${isEN ? 'Hello%2C%20I%20want%20to%20learn%20about%20Keikaku%20AI%20services' : 'Hola%2C%20quiero%20saber%20m%C3%A1s%20sobre%20los%20servicios%20de%20Keikaku%20AI'}`}
-    target="_blank"
-    rel="noopener"
-    title={isEN ? 'Chat on WhatsApp' : 'Escribir por WhatsApp'}
-    class="fixed bottom-6 right-6 z-50 flex items-center gap-2 group"
-  >
-    <!-- pill label -->
-    <span class="opacity-0 group-hover:opacity-100 transition-opacity duration-200 bg-white text-slate-800 text-xs font-semibold px-3 py-1.5 rounded-full shadow-lg whitespace-nowrap">
-      {isEN ? 'Chat with us' : 'Escríbenos'}
-    </span>
-    <!-- WA circle button -->
-    <div class="w-14 h-14 rounded-full flex items-center justify-center shadow-xl transition-transform duration-200 group-hover:scale-110" style="background-color:#25D366;">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" class="w-7 h-7">
-        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-      </svg>
-    </div>
-  </a>
 
 </body>
 </html>

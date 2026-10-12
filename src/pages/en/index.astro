@@ -38,8 +38,8 @@ const steps = [
   { num: '04', title: 'Support', desc: 'Ongoing guidance to optimize and scale.' },
 ];
 ---
-<Layout title="AI Consulting for Businesses" lang="en"
-  description="AI consulting to automate business processes. Chatbots, automation, and custom AI tools.">
+<Layout title="AI Consulting in Monterrey for Businesses" lang="en"
+  description="Keikaku AI — AI consulting in Monterrey, Mexico. We automate business processes, build AI chatbots and custom tools for companies in NL and Latin America. Results in 2–4 weeks.">
 
   <!-- ===== HERO ===== -->
   <section class="relative flex flex-col items-center justify-center text-center px-4 pt-16 pb-12">
@@ -53,7 +53,7 @@ const steps = [
     </h1>
 
     <p class="text-slate-400 text-lg md:text-xl max-w-2xl leading-relaxed mb-10">
-      We design and implement AI solutions that eliminate manual work, reduce errors, and scale your operations without hiring more staff.
+      We design and implement AI solutions for businesses in <strong class="text-slate-300">Monterrey and Latin America</strong>. Eliminate manual work, reduce errors, and scale your operations without hiring more staff.
     </p>
 
     <div class="flex flex-col sm:flex-row gap-4 mb-16">
@@ -215,7 +215,7 @@ const steps = [
         </div>
 
         <div class="text-slate-500 text-xs leading-relaxed px-1">
-          We serve businesses in Mexico and Latin America. Video call sessions available for international clients.
+          Based in <strong class="text-slate-600">Monterrey, Nuevo León, México</strong>. Serving businesses across Mexico and Latin America. Video calls available.
         </div>
       </div>
 
@@ -257,16 +257,30 @@ const steps = [
           <div id="form-success" class="hidden text-center text-sm text-indigo-300 py-2">
             Message sent! We'll get back to you within 24 hours.
           </div>
+          <div id="form-error" class="hidden text-center text-sm text-red-400 py-2">
+            Failed to send. Please reach out via WhatsApp or email directly.
+          </div>
         </form>
 
         <script>
-          document.getElementById('contact-form')?.addEventListener('submit', async (e) => {
+          const form = document.getElementById('contact-form') as HTMLFormElement | null;
+          const submitBtn = form?.querySelector('button[type="submit"]') as HTMLButtonElement | null;
+          form?.addEventListener('submit', async (e) => {
             e.preventDefault();
-            const form = e.target as HTMLFormElement;
+            if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Sending…'; }
             const data = Object.fromEntries(new FormData(form));
-            await fetch('/api/contact', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(data) });
-            form.reset();
-            document.getElementById('form-success')?.classList.remove('hidden');
+            try {
+              const res = await fetch('/api/contact', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(data) });
+              if (!res.ok) throw new Error();
+              form.reset();
+              document.getElementById('form-success')?.classList.remove('hidden');
+              document.getElementById('form-error')?.classList.add('hidden');
+            } catch {
+              document.getElementById('form-error')?.classList.remove('hidden');
+              document.getElementById('form-success')?.classList.add('hidden');
+            } finally {
+              if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = 'Send message'; }
+            }
           });
         </script>
       </div>
